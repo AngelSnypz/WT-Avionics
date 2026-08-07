@@ -42,18 +42,20 @@ export const RootComponent = () => {
 
     const elems: JSX.Element[] = []
 
-    Object.entries(indicators.data).forEach(([key, value], index) => {
-      elems.push(
-        <Text
-          key={key}
-          text={`${key}: ${value}`}
-          x={10}
-          y={10 + index * 20}
-          fontSize={14}
-          fill="black"
-        />,
-      )
-    })
+    Object.entries(indicators.data).forEach(
+      ([key, value]: [string, string | number], index) => {
+        elems.push(
+          <Text
+            key={key}
+            text={`${key}: ${value}`}
+            x={10}
+            y={10 + index * 20}
+            fontSize={14}
+            fill="black"
+          />,
+        )
+      },
+    )
 
     return elems
   }, [indicators.data])

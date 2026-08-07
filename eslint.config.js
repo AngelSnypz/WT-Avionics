@@ -53,6 +53,10 @@ const eslintConfig = config(
       },
     },
     rules: {
+      "@typescript-eslint/restrict-template-expressions": [
+        2,
+        { allowNumber: true },
+      ],
       "no-undef": [0],
       "@typescript-eslint/consistent-type-definitions": [2, "interface"],
       "@typescript-eslint/consistent-type-imports": [
