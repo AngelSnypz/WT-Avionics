@@ -58,8 +58,7 @@ export const apiSlice = createApi({
     map_img: builder.query({
       query: () => "/map.img",
     }),
-    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    indicators: builder.query<indicatorsResponse, void>({
+    indicators: builder.query<indicatorsResponse, string>({
       query: () => "/indicators",
     }),
     map_obj: builder.query({

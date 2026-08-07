@@ -1,15 +1,17 @@
-import type { JSX } from "react"
-import { useCallback, useRef, useMemo } from "react"
+import { useCallback, useRef } from "react"
 import { useIndicatorsQuery } from "../Redux/apiSlice/apiSlice"
-import { Layer, Rect, Stage, Text } from "react-konva"
+import { Layer, Stage } from "react-konva"
 import type { KonvaEventObject } from "konva/lib/Node"
 import type { Konva } from "konva/lib/_FullInternals"
+import { ArtificialHorizon } from "./ArtificalHorizon"
 
 export const RootComponent = () => {
-  const indicators = useIndicatorsQuery(void 0, {
-    pollingInterval: 100,
+  //fetching data from the backend
+  const indicators = useIndicatorsQuery("", {
+    pollingInterval: 50,
   })
 
+  //infinite scroll + zoom
   const stageRef = useRef<null | Konva.Stage>(null)
   const handleScroll = useCallback((e: KonvaEventObject<WheelEvent>) => {
     e.evt.preventDefault()
@@ -37,33 +39,10 @@ export const RootComponent = () => {
     stage.position(newPos)
   }, [])
 
-  const Data = useMemo(() => {
-    if (!indicators.data) return <Text text="Loading..." />
-
-    const elems: JSX.Element[] = []
-
-    Object.entries(indicators.data).forEach(
-      ([key, value]: [string, string | number], index) => {
-        elems.push(
-          <Text
-            key={key}
-            text={`${key}: ${value}`}
-            x={10}
-            y={10 + index * 20}
-            fontSize={14}
-            fill="black"
-          />,
-        )
-      },
-    )
-
-    return elems
-  }, [indicators.data])
-
   return (
     <Stage
-      width={1000}
-      height={1000}
+      width={window.innerWidth}
+      height={window.innerHeight}
       draggable
       ref={stageRef}
       onWheel={handleScroll}
@@ -73,8 +52,16 @@ export const RootComponent = () => {
       }}
     >
       <Layer>
-        <Rect width={50} height={50} fill={"magenta"} />
-        {Data}
+        {/* {Data} */}
+        <ArtificialHorizon
+          x={200}
+          y={200}
+          width={200}
+          height={200}
+          roll={indicators.data?.aviahorizon_roll}
+          pitch={indicators.data?.aviahorizon_pitch}
+          pxPerDegree={3}
+        />
       </Layer>
     </Stage>
   )
