@@ -31,7 +31,7 @@ export const ArtificialHorizon = (props: ArtificialHorizonProps) => {
         offsetY={props.height / 2}
       />
       <Group
-        rotation={(props.roll ?? 0) * -1}
+        rotation={props.roll ?? 0}
         offsetX={props.width / 2}
         offsetY={Math.max(
           Math.min(
