@@ -1,13 +1,18 @@
 import { useCallback, useRef } from "react"
-import { useIndicatorsQuery } from "../Redux/apiSlice/apiSlice"
+import { useIndicatorsQuery, useStateQuery } from "../Redux/apiSlice/apiSlice"
 import { Layer, Stage } from "react-konva"
 import type { KonvaEventObject } from "konva/lib/Node"
 import type { Konva } from "konva/lib/_FullInternals"
-import { ArtificialHorizon } from "./ArtificalHorizon"
+import { ArtificialHorizon } from "./ArtificalHorizon/ArtificalHorizon"
+import { VerticalSpeed } from "./VerticalSpeed"
 
 export const RootComponent = () => {
   //fetching data from the backend
   const indicators = useIndicatorsQuery("", {
+    pollingInterval: 50,
+  })
+
+  const stateData = useStateQuery("", {
     pollingInterval: 50,
   })
 
@@ -39,6 +44,20 @@ export const RootComponent = () => {
     stage.position(newPos)
   }, [])
 
+  // const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  // useEffect(() => {
+  //   intervalRef.current = setInterval(() => {
+  //     console.log("indicators", indicators.data)
+  //     // console.log("stateData", stateData.data)
+  //   }, 1000)
+
+  //   return () => {
+  //     if (intervalRef.current) {
+  //       clearInterval(intervalRef.current)
+  //     }
+  //   }
+  // }, [stateData.data])
+
   return (
     <Stage
       width={window.innerWidth}
@@ -61,6 +80,12 @@ export const RootComponent = () => {
           roll={indicators.data?.aviahorizon_roll}
           pitch={indicators.data?.aviahorizon_pitch}
           pxPerDegree={3}
+        />
+        <VerticalSpeed
+          height={100}
+          width={100}
+          style="needle"
+          vs={stateData.data?.["RPM 1"]}
         />
       </Layer>
     </Stage>

@@ -1,13 +1,12 @@
 import { Group, Rect } from "react-konva"
-import { COLORS } from "../Helpers/Theme"
+import { COLORS } from "../../Helpers/Theme"
 
-interface ArtificialHorizonProps {
+import type { containerProps } from "../../Helpers/types"
+import { RollIndicator } from "./RollIndicator"
+
+interface ArtificialHorizonProps extends containerProps {
   roll?: number
   pitch?: number
-  x?: number
-  y?: number
-  width: number
-  height: number
   pxPerDegree?: number
 }
 
@@ -56,6 +55,13 @@ export const ArtificialHorizon = (props: ArtificialHorizonProps) => {
           y={props.height * 0.5}
         />
       </Group>
+      <RollIndicator
+        x={props.width / 2}
+        y={props.height / 2}
+        width={props.width}
+        height={props.height}
+        roll={props.roll}
+      />
     </Group>
   )
 }
