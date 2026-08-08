@@ -53,6 +53,10 @@ const eslintConfig = config(
       },
     },
     rules: {
+      "@typescript-eslint/restrict-plus-operands": [
+        2,
+        { allowNumberAndString: true },
+      ],
       "@typescript-eslint/restrict-template-expressions": [
         2,
         { allowNumber: true },
